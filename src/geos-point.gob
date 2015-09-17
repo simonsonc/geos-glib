@@ -17,6 +17,10 @@ geos::geom::Point* get_hndl(GeosPoint* self)
 }
 %}
 
+%header{
+G_BEGIN_DECLS
+%}
+
 class Geos:Point from Geos:Geometry {
     private int poop;
 
@@ -31,3 +35,7 @@ class Geos:Point from Geos:Geometry {
     property DOUBLE y
         get { g_value_set_double(VAL, get_hndl(self)->getY() ); };
 }
+
+%header{
+G_END_DECLS
+%}

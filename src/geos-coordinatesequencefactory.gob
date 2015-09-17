@@ -11,6 +11,10 @@
 #include "geos-coordinatesequence-private.h"
 %}
 
+%header{
+G_BEGIN_DECLS
+%}
+
 class Geos:CoordinateSequenceFactory from G:Object {
     private const geos::geom::CoordinateSequenceFactory* hndl;
 
@@ -24,3 +28,7 @@ class Geos:CoordinateSequenceFactory from G:Object {
         return geos_coordinatesequence_new_from_ref(self->_priv->hndl->create(size, dimension));
     }
 }
+
+%header{
+G_END_DECLS
+%}

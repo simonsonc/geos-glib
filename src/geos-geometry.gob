@@ -45,6 +45,10 @@ const GeosGeometry* new_from_geom(const geos::geom::Geometry* geom) {
 }
 %}
 
+%header{
+G_BEGIN_DECLS
+%}
+
 class Geos:Geometry from G:Object {
     private geos::geom::Geometry* hndl;
 
@@ -166,3 +170,7 @@ class Geos:Geometry from G:Object {
     property INT dimension
         get { g_value_set_int(VAL, self->_priv->hndl->getDimension()); };
 }
+
+%header{
+G_END_DECLS
+%}

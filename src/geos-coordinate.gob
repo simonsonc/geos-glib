@@ -10,6 +10,10 @@
 #include "geos-point-private.h"
 %}
 
+%header{
+G_BEGIN_DECLS
+%}
+
 class Geos:Coordinate from G:Object {
     private const geos::geom::Coordinate* hndl;
 
@@ -34,3 +38,7 @@ class Geos:Coordinate from G:Object {
         return self->_priv->hndl->isNull();
     }
 }
+
+%header{
+G_END_DECLS
+%}

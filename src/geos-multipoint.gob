@@ -17,6 +17,10 @@ geos::geom::MultiPoint* get_hndl(GeosMultiPoint* self)
 }
 %}
 
+%header{
+G_BEGIN_DECLS
+%}
+
 class Geos:MultiPoint from Geos:Geometry {
     private int poop;
 
@@ -26,3 +30,7 @@ class Geos:MultiPoint from Geos:Geometry {
         return self;
     }
 }
+
+%header{
+G_END_DECLS
+%}

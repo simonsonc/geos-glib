@@ -26,6 +26,10 @@
 #include "geos-polygon-private.h"
 %}
 
+%header{
+G_BEGIN_DECLS
+%}
+
 class Geos:GeometryFactory from G:Object {
     private const geos::geom::GeometryFactory* hndl;
 
@@ -102,3 +106,7 @@ class Geos:GeometryFactory from G:Object {
                 *shell_hndl, new_holes));
     }
 }
+
+%header{
+G_END_DECLS
+%}

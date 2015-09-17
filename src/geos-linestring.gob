@@ -17,6 +17,10 @@ geos::geom::LineString* get_hndl(GeosLineString* self)
 }
 %}
 
+%header{
+G_BEGIN_DECLS
+%}
+
 class Geos:LineString from Geos:Geometry {
     protected Geos:LineString* new_from_ref(geos::geom::LineString* ref) {
         auto self = GET_NEW;
@@ -30,3 +34,7 @@ class Geos:LineString from Geos:Geometry {
         return self;
     }
 }
+
+%header{
+G_END_DECLS
+%}

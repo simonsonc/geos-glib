@@ -6,9 +6,9 @@ from waflib import TaskGen
 
 TaskGen.declare_chain(
 	name = 'gob2',
-	rule = '${GOB2} --for-cpp -o ${TGT[0].bld_dir()} ${GOB2FLAGS} ${SRC}',
+	rule = '${GOB2} -o ${TGT[0].bld_dir()} ${GOB2FLAGS} ${SRC}',
 	ext_in = '.gob',
-	ext_out = '.cc'
+	ext_out = '.cc .h'
 )
 
 def configure(conf):

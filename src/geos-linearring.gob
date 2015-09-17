@@ -17,6 +17,10 @@ geos::geom::LinearRing* get_hndl(GeosLinearRing* self)
 }
 %}
 
+%header{
+G_BEGIN_DECLS
+%}
+
 class Geos:LinearRing from Geos:Geometry {
     private int poop;
 
@@ -26,3 +30,7 @@ class Geos:LinearRing from Geos:Geometry {
         return self;
     }
 }
+
+%header{
+G_END_DECLS
+%}

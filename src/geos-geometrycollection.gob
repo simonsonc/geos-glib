@@ -12,6 +12,14 @@ geos::geom::GeometryCollection* get_hndl(GeosGeometryCollection* self) {
 }
 %}
 
+%header{
+G_BEGIN_DECLS
+%}
+
 class Geos:GeometryCollection from G:Object {
     private geos::geom::GeometryCollection* hndl;
 }
+
+%header{
+G_END_DECLS
+%}
