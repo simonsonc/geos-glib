@@ -1,0 +1,38 @@
+%privateheader{
+#include <geos/geom/Polygon.h>
+#include "geos-geometry.h"
+#include "geos-geometry-private.h"
+%}
+
+%headertop{
+#include "geos-geometry.h"
+#include "geos-linestring.h"
+%}
+
+%{
+#include "geos-geometry-private.h"
+#include "geos-linestring-private.h"
+
+geos::geom::Polygon* get_hndl(GeosPolygon* self)
+{
+    return dynamic_cast<geos::geom::Polygon*>(self->__parent__._priv->hndl);
+}
+%}
+
+class Geos:Polygon from Geos:Geometry {
+    private int poop;
+
+    protected Geos:Polygon* new_from_ref(geos::geom::Polygon* ref) {
+        auto self = GET_NEW;
+        self->__parent__._priv->hndl = ref;
+        return self;
+    }
+
+    public const Geos:LineString* get_exterior_ring(self) {
+        return geos_linestring_new_from_const_ref(get_hndl(self)->getExteriorRing());
+    }
+
+    public const Geos:LineString* get_interior_ring_n(self, gsize n) {
+        return geos_linestring_new_from_const_ref(get_hndl(self)->getInteriorRingN(n));
+    }
+}

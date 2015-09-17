@@ -1,0 +1,33 @@
+%privateheader{
+#include <geos/geom/Point.h>
+#include "geos-geometry.h"
+#include "geos-geometry-private.h"
+%}
+
+%headertop{
+#include "geos-geometry.h"
+%}
+
+%{
+#include "geos-geometry-private.h"
+
+geos::geom::Point* get_hndl(GeosPoint* self)
+{
+    return dynamic_cast<geos::geom::Point*>(self->__parent__._priv->hndl);
+}
+%}
+
+class Geos:Point from Geos:Geometry {
+    private int poop;
+
+    protected Geos:Point* new_from_ref(geos::geom::Point* ref) {
+        auto self = GET_NEW;
+        self->__parent__._priv->hndl = ref;
+        return self;
+    }
+
+    property DOUBLE x
+        get { g_value_set_double(VAL, get_hndl(self)->getX() ); };
+    property DOUBLE y
+        get { g_value_set_double(VAL, get_hndl(self)->getY() ); };
+}

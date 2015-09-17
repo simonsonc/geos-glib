@@ -1,0 +1,28 @@
+%privateheader{
+#include <geos/geom/LinearRing.h>
+#include "geos-geometry.h"
+#include "geos-geometry-private.h"
+%}
+
+%headertop{
+#include "geos-geometry.h"
+%}
+
+%{
+#include "geos-geometry-private.h"
+
+geos::geom::LinearRing* get_hndl(GeosLinearRing* self)
+{
+    return dynamic_cast<geos::geom::LinearRing*>(self->__parent__._priv->hndl);
+}
+%}
+
+class Geos:LinearRing from Geos:Geometry {
+    private int poop;
+
+    protected Geos:LinearRing* new_from_ref(geos::geom::LinearRing* ref) {
+        auto self = GET_NEW;
+        self->__parent__._priv->hndl = ref;
+        return self;
+    }
+}

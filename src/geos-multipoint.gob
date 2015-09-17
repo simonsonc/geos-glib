@@ -1,0 +1,28 @@
+%privateheader{
+#include <geos/geom/MultiPoint.h>
+#include "geos-geometry.h"
+#include "geos-geometry-private.h"
+%}
+
+%headertop{
+#include "geos-geometry.h"
+%}
+
+%{
+#include "geos-geometry-private.h"
+
+geos::geom::MultiPoint* get_hndl(GeosMultiPoint* self)
+{
+    return dynamic_cast<geos::geom::MultiPoint*>(self->__parent__._priv->hndl);
+}
+%}
+
+class Geos:MultiPoint from Geos:Geometry {
+    private int poop;
+
+    protected Geos:MultiPoint* new_from_ref(geos::geom::MultiPoint* ref) {
+        auto self = GET_NEW;
+        self->__parent__._priv->hndl = ref;
+        return self;
+    }
+}

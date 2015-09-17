@@ -1,0 +1,104 @@
+%privateheader{
+#include <geos/geom/GeometryFactory.h>
+%}
+
+%alltop{
+#include "geos-point.h"
+#include "geos-coordinate.h"
+#include "geos-coordinatesequence.h"
+#include "geos-coordinatesequencefactory.h"
+#include "geos-linestring.h"
+#include "geos-linearring.h"
+#include "geos-multipoint.h"
+#include "geos-polygon.h"
+%}
+
+%{
+#include <vector>
+
+#include "geos-point-private.h"
+#include "geos-coordinate-private.h"
+#include "geos-coordinatesequence-private.h"
+#include "geos-coordinatesequencefactory-private.h"
+#include "geos-linestring-private.h"
+#include "geos-linearring-private.h"
+#include "geos-multipoint-private.h"
+#include "geos-polygon-private.h"
+%}
+
+class Geos:GeometryFactory from G:Object {
+    private const geos::geom::GeometryFactory* hndl;
+
+    public Geos:GeometryFactory* new (void) {
+        auto self = GET_NEW;
+        self->_priv->hndl = new geos::geom::GeometryFactory();
+        return self;
+    }
+
+    public const Geos:GeometryFactory* get_default_instance(void) {
+        auto self = GET_NEW;
+        self->_priv->hndl = geos::geom::GeometryFactory::getDefaultInstance();
+        return self;
+    }
+
+    public const Geos:CoordinateSequenceFactory* get_coordinate_sequence_factory(self) {
+        return geos_coordinatesequencefactory_new_from_ref(self->_priv->hndl->getCoordinateSequenceFactory());
+    }
+
+    public Geos:Point* create_empty_point( self ) {
+        return geos_point_new_from_ref(self->_priv->hndl->createPoint());
+    }
+
+    /*
+    public Geos:Point* create_point(self, const Geos:Coordinate* coord) {
+        return geos_point_new_from_ref(self->_priv->hndl->createPoint(*coord->_priv->hndl));
+    }
+    */
+
+    public Geos:LineString* create_point(self, const Geos:CoordinateSequence* seq, GError** error) {
+        try {
+            return geos_linestring_new_from_ref(self->_priv->hndl->createLineString(*seq->_priv->hndl));
+        } catch (std::exception& e) {
+            g_set_error(error, 0, 0, "%s", e.what());
+            return nullptr;
+        }
+    }
+
+
+    public Geos:LineString* create_empty_line_string(self) {
+        return geos_linestring_new_from_ref(self->_priv->hndl->createLineString());
+    }
+
+    public Geos:LineString* create_line_string(self, const Geos:CoordinateSequence* seq, GError** error) {
+        try {
+            return geos_linestring_new_from_ref(self->_priv->hndl->createLineString(*seq->_priv->hndl));
+        } catch (std::exception& e) {
+            g_set_error(error, 0, 0, "%s", e.what());
+            return nullptr;
+        }
+    }
+
+
+    public Geos:MultiPoint* create_empty_multi_point(self) {
+        return geos_multipoint_new_from_ref(self->_priv->hndl->createMultiPoint());
+    }
+    public Geos:MultiPoint* create_multi_point(self, const Geos:CoordinateSequence* seq) {
+        return geos_multipoint_new_from_ref(self->_priv->hndl->createMultiPoint(*seq->_priv->hndl));
+    }
+
+
+    public Geos:Polygon* create_empty_polygon(self) {
+        return geos_polygon_new_from_ref(self->_priv->hndl->createPolygon());
+    }
+    public Geos:Polygon* create_polygon(self, const Geos:LinearRing* shell, GList* holes) {
+        std::vector<geos::geom::Geometry*> new_holes;
+        for (auto i = g_list_first(holes); i != NULL; i = g_list_next(i))
+        {
+            new_holes.push_back((geos::geom::Geometry*)i->data);
+        }
+
+        auto shell_hndl = dynamic_cast<geos::geom::LinearRing*>(shell->__parent__._priv->hndl);
+        return geos_polygon_new_from_ref(self->_priv->hndl->createPolygon(
+                *shell_hndl, new_holes));
+    }
+}

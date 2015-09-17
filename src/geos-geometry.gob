@@ -1,0 +1,168 @@
+%privateheader{
+#include <geos/geom/Geometry.h>
+%}
+
+%headertop{
+typedef struct _GeosPoint GeosPoint;
+%}
+
+%{
+#include "geos-linearring-private.h"
+#include "geos-linestring-private.h"
+#include "geos-multipoint-private.h"
+#include "geos-point-private.h"
+#include "geos-polygon-private.h"
+
+const geos::geom::Geometry* get_hndl(const GeosGeometry* self) {
+    return self->_priv->hndl;
+}
+
+geos::geom::Geometry* get_hndl(GeosGeometry* self) {
+    return self->_priv->hndl;
+}
+
+GeosGeometry* new_from_geom(geos::geom::Geometry* geom) {
+    using namespace geos::geom;
+    switch (geom->getGeometryTypeId())
+    {
+    case GEOS_POINT:
+        return (GeosGeometry*)geos_point_new_from_ref(dynamic_cast<Point*>(geom));
+    case GEOS_LINESTRING:
+        return (GeosGeometry*)geos_linestring_new_from_ref(dynamic_cast<LineString*>(geom));
+    case GEOS_LINEARRING:
+        return (GeosGeometry*)geos_linearring_new_from_ref(dynamic_cast<LinearRing*>(geom));
+    case GEOS_POLYGON:
+        return (GeosGeometry*)geos_polygon_new_from_ref(dynamic_cast<Polygon*>(geom));
+    case GEOS_MULTIPOINT:
+        return (GeosGeometry*)geos_multipoint_new_from_ref(dynamic_cast<MultiPoint*>(geom));
+    default:
+        return geos_geometry_new_from_ref(geom);
+    }
+}
+
+const GeosGeometry* new_from_geom(const geos::geom::Geometry* geom) {
+    return new_from_geom(const_cast<geos::geom::Geometry*>(geom));
+}
+%}
+
+class Geos:Geometry from G:Object {
+    private geos::geom::Geometry* hndl;
+
+    protected Geos:Geometry* new_from_ref(geos::geom::Geometry* geom) {
+        auto ret = GET_NEW;
+        ret->_priv->hndl = geom;
+        return ret;
+    }
+
+    public gboolean is_empty(self) {
+        return self->_priv->hndl->isEmpty();
+    }
+
+    public gchar* to_string(self) {
+        return g_strdup(self->_priv->hndl->toString().c_str());
+    }
+
+    public gchar* get_geometry_type(self) {
+        return g_strdup(get_hndl(self)->getGeometryType().c_str());
+    }
+
+    public gboolean is_simple(self) {
+        return get_hndl(self)->isSimple();
+    }
+
+    public gboolean touches(self, const Geos:Geometry* other) {
+        return get_hndl(self)->touches(get_hndl(other));
+    }
+
+    public gboolean intersects(self, const Geos:Geometry* other) {
+        return get_hndl(self)->intersects(get_hndl(other));
+    }
+
+    public gboolean crosses(self, const Geos:Geometry* other) {
+        return get_hndl(self)->crosses(get_hndl(other));
+    }
+
+    public gboolean within(self, const Geos:Geometry* other) {
+        return get_hndl(self)->within(get_hndl(other));
+    }
+
+    public gboolean contains(self, const Geos:Geometry* other) {
+        return get_hndl(self)->contains(get_hndl(other));
+    }
+
+    public gboolean overlaps(self, const Geos:Geometry* other) {
+        return get_hndl(self)->overlaps(get_hndl(other));
+    }
+
+    public gboolean equals(self, const Geos:Geometry* other) {
+        return get_hndl(self)->equals(get_hndl(other));
+    }
+
+    public gboolean equals_exact(self, const Geos:Geometry* other, gdouble tolerance) {
+        return get_hndl(self)->equalsExact(get_hndl(other), tolerance);
+    }
+
+    public gboolean covers(self, const Geos:Geometry* other) {
+        return get_hndl(self)->covers(get_hndl(other));
+    }
+
+    public gboolean covered_by(self, const Geos:Geometry* other) {
+        return get_hndl(self)->coveredBy(get_hndl(other));
+    }
+
+    public gdouble distance(self, const Geos:Geometry* other) {
+        return get_hndl(self)->distance(get_hndl(other));
+    }
+
+    public void normalize(self) {
+        get_hndl(self)->normalize();
+    }
+
+    public gint compare_to(self, const Geos:Geometry* other) {
+        return get_hndl(self)->compareTo(get_hndl(other));
+    }
+
+    public gboolean is_within_distance(self, const Geos:Geometry* other, gdouble distance) {
+        return get_hndl(self)->isWithinDistance(get_hndl(other), distance);
+    }
+
+    public const Geos:Geometry* Union(self, const Geos:Geometry* other, GError** error) {
+        try {
+            return new_from_geom(get_hndl(self)->Union(get_hndl(other)));
+        } catch (std::exception& e) {
+            g_set_error(error, 0, 0, "%s", e.what());
+            return nullptr;
+        }
+    }
+
+    public const Geos:Geometry* difference(self, const Geos:Geometry* other, GError** error) {
+        try {
+            return new_from_geom(get_hndl(self)->difference(get_hndl(other)));
+        } catch (std::exception& e) {
+            g_set_error(error, 0, 0, "%s", e.what());
+            return nullptr;
+        }
+    }
+
+    public const Geos:Geometry* sym_difference(self, const Geos:Geometry* other, GError** error) {
+        try {
+            return new_from_geom(get_hndl(self)->symDifference(get_hndl(other)));
+        } catch (std::exception& e) {
+            g_set_error(error, 0, 0, "%s", e.what());
+            return nullptr;
+        }
+    }
+
+    public Geos:Point* get_centroid(self) {
+        return geos_point_new_from_ref(get_hndl(self)->getCentroid());
+    }
+
+    property DOUBLE area
+        get { g_value_set_double(VAL, get_hndl(self)->getArea()); };
+
+    property DOUBLE length
+        get { g_value_set_double(VAL, get_hndl(self)->getLength()); };
+
+    property INT dimension
+        get { g_value_set_int(VAL, self->_priv->hndl->getDimension()); };
+}

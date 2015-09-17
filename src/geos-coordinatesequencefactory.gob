@@ -1,0 +1,26 @@
+%privateheader{
+#include <geos/geom/CoordinateSequenceFactory.h>
+#include <geos/geom/CoordinateSequence.h>
+%}
+
+%alltop{
+#include "geos-coordinatesequence.h"
+%}
+
+%{
+#include "geos-coordinatesequence-private.h"
+%}
+
+class Geos:CoordinateSequenceFactory from G:Object {
+    private const geos::geom::CoordinateSequenceFactory* hndl;
+
+    protected Geos:CoordinateSequenceFactory* new_from_ref (const geos::geom::CoordinateSequenceFactory* ref) {
+        auto self = GET_NEW;
+        self->_priv->hndl = ref;
+        return self;
+    }
+
+    public Geos:CoordinateSequence* create(self, gsize size, gsize dimension) {
+        return geos_coordinatesequence_new_from_ref(self->_priv->hndl->create(size, dimension));
+    }
+}

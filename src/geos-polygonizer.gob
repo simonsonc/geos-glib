@@ -1,0 +1,62 @@
+%privateheader{
+#include <geos/operation/polygonize/Polygonizer.h>
+%}
+
+%alltop{
+#include "geos-geometry.h"
+%}
+
+%{
+#include "geos-geometry-private.h"
+#include "geos-polygon-private.h"
+#include "geos-linestring-private.h"
+
+using namespace geos::operation::polygonize;
+%}
+
+class Geos:Polygonizer from G:Object {
+    private geos::operation::polygonize::Polygonizer* hndl;
+
+    public Geos:Polygonizer* new (void) {
+        auto self = GET_NEW;
+        self->_priv->hndl = new Polygonizer();
+        return self;
+    }
+    
+    public void add(self, const Geos:Geometry* geom) {
+        self->_priv->hndl->add(geom->_priv->hndl);
+    }
+
+    public const GList* get_polygons(self) {
+        GList* ret = nullptr;
+        const auto& polygons = self->_priv->hndl->getPolygons();
+        for (const auto& i: *polygons)
+        {
+            auto geom = geos_polygon_new_from_ref(i);
+            ret = g_list_append(ret, geom);
+        }
+        return ret;
+    }
+
+    public const GList* get_dangles(self) {
+        GList* ret = nullptr;
+        const auto& dangles = self->_priv->hndl->getDangles();
+        for (const auto& i: dangles)
+        {
+            auto geom = geos_linestring_new_from_const_ref(i);
+            ret = g_list_append(ret, geom);
+        }
+        return ret;
+    }
+
+    public const GList* get_cut_edges(self) {
+        GList* ret = nullptr;
+        const auto& cut_edges = self->_priv->hndl->getDangles();
+        for (const auto& i: cut_edges)
+        {
+            auto geom = geos_linestring_new_from_const_ref(i);
+            ret = g_list_append(ret, geom);
+        }
+        return ret;
+    }
+}

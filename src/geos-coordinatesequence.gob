@@ -1,0 +1,25 @@
+%privateheader{
+#include <geos/geom/CoordinateSequence.h>
+%}
+
+%alltop{
+#include "geos-coordinate.h"
+%}
+
+%{
+#include "geos-coordinate-private.h"
+%}
+
+class Geos:CoordinateSequence from G:Object {
+    private const geos::geom::CoordinateSequence* hndl;
+
+    protected Geos:CoordinateSequence* new_from_ref (geos::geom::CoordinateSequence* ref) {
+        auto self = GET_NEW;
+        self->_priv->hndl = ref;
+        return self;
+    }
+
+    public gchar* to_string(self) {
+        return g_strdup(self->_priv->hndl->toString().c_str());
+    }
+}
