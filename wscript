@@ -1,9 +1,15 @@
 def options(ctx):
+    ctx.load('compiler_c')
     ctx.load('compiler_cxx')
     ctx.load('gob2', tooldir='wtools')
+    ctx.load('local_rpath', tooldir='wtools')
+    ctx.load('vala')
 
 def configure(ctx):
+    ctx.load('compiler_c')
     ctx.load('compiler_cxx')
+    ctx.load('vala')
+    ctx.load('local_rpath', tooldir='wtools')
     ctx.env.append_value('CXXFLAGS', '-std=c++11')
     ctx.load('gob2', tooldir='wtools')
     ctx.env['GOB2FLAGS'] = ['--for-cpp', '--no-extern-c', '--no-lines', '--no-self-alias']
@@ -92,3 +98,6 @@ def build(bld):
         after = 'geos-glib-gir',
         source = 'Geos-1.0.gir',
         rule = 'vapigen --library geos-glib ${SRC}')
+
+    bld.add_group()
+    bld.recurse('demo')

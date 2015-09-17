@@ -39,16 +39,37 @@ class Geos:GeometryFactory from G:Object {
         return self;
     }
 
-    public const Geos:GeometryFactory* get_default_instance(void) {
+    /**
+     * get_default_instance
+     *
+     * Get the default instance of this factory
+     *
+     * Return value: (transfer full): a #GeosGeometryFactory.
+     */
+    public Geos:GeometryFactory* get_default_instance(void) {
         auto self = GET_NEW;
         self->_priv->hndl = geos::geom::GeometryFactory::getDefaultInstance();
         return self;
     }
 
-    public const Geos:CoordinateSequenceFactory* get_coordinate_sequence_factory(self) {
+    /**
+     * get_coordinate_sequence_factory
+     *
+     * Get the coordinate sequence factory in use
+     *
+     * Return value: (transfer full): a #GeosCoordinateSequenceFactory.
+     */
+    public Geos:CoordinateSequenceFactory* get_coordinate_sequence_factory(self) {
         return geos_coordinatesequencefactory_new_from_ref(self->_priv->hndl->getCoordinateSequenceFactory());
     }
 
+    /**
+     * create_empty_point
+     *
+     * Create an empty point
+     *
+     * Return value: (transfer full): a #GeosPoint.
+     */
     public Geos:Point* create_empty_point( self ) {
         return geos_point_new_from_ref(self->_priv->hndl->createPoint());
     }
@@ -59,6 +80,13 @@ class Geos:GeometryFactory from G:Object {
     }
     */
 
+    /**
+     * create_point
+     *
+     * Create a point
+     *
+     * Return value: (transfer full): a #GeosPoint.
+     */
     public Geos:LineString* create_point(self, const Geos:CoordinateSequence* seq, GError** error) {
         try {
             return geos_linestring_new_from_ref(self->_priv->hndl->createLineString(*seq->_priv->hndl));

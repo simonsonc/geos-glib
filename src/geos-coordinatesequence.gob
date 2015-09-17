@@ -15,7 +15,7 @@ G_BEGIN_DECLS
 %}
 
 class Geos:CoordinateSequence from G:Object {
-    private const geos::geom::CoordinateSequence* hndl;
+    private geos::geom::CoordinateSequence* hndl;
 
     protected Geos:CoordinateSequence* new_from_ref (geos::geom::CoordinateSequence* ref) {
         auto self = GET_NEW;
@@ -25,6 +25,14 @@ class Geos:CoordinateSequence from G:Object {
 
     public gchar* to_string(self) {
         return g_strdup(self->_priv->hndl->toString().c_str());
+    }
+
+    public void set_at(self, const Geos:Coordinate* coord, gsize pos) {
+        self->_priv->hndl->setAt(*coord->_priv->hndl, pos);
+    }
+
+    public void add(self, const Geos:Coordinate* coord) {
+        self->_priv->hndl->add(*coord->_priv->hndl);
     }
 }
 

@@ -24,6 +24,13 @@ class Geos:CoordinateSequenceFactory from G:Object {
         return self;
     }
 
+    /**
+     * create
+     *
+     * Create a coordinate sequence
+     *
+     * Return value: (transfer full): a #GeosCoordinateSequence.
+     */
     public Geos:CoordinateSequence* create(self, gsize size, gsize dimension) {
         return geos_coordinatesequence_new_from_ref(self->_priv->hndl->create(size, dimension));
     }

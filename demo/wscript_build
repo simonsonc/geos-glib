@@ -1,0 +1,7 @@
+bld.program(
+    target='test1',
+    use = 'geos-glib',
+    source = 'test1.vala',
+    vapi_dirs = '../',
+    packages = 'geos-glib')
+
