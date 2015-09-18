@@ -23,6 +23,12 @@ class Geos:Coordinate from G:Object {
         return self;
     }
 
+    public Geos:Coordinate* new_with_xy (gdouble x, gdouble y) {
+        auto self = GET_NEW;
+        self->_priv->hndl = new geos::geom::Coordinate(x, y);
+        return self;
+    }
+
     property DOUBLE x
         get { g_value_set_double(VAL, self->_priv->hndl->x); };
     property DOUBLE y

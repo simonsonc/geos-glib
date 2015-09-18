@@ -31,7 +31,18 @@ class Geos:CoordinateSequenceFactory from G:Object {
      *
      * Return value: (transfer full): a #GeosCoordinateSequence.
      */
-    public Geos:CoordinateSequence* create(self, gsize size, gsize dimension) {
+    public Geos:CoordinateSequence* create(self) {
+        return geos_coordinatesequence_new_from_ref(self->_priv->hndl->create());
+    }
+
+    /**
+     * create_with_size
+     *
+     * Create a coordinate sequence
+     *
+     * Return value: (transfer full): a #GeosCoordinateSequence.
+     */
+    public Geos:CoordinateSequence* create_with_size(self, gsize size, gsize dimension) {
         return geos_coordinatesequence_new_from_ref(self->_priv->hndl->create(size, dimension));
     }
 }

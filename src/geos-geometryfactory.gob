@@ -87,7 +87,35 @@ class Geos:GeometryFactory from G:Object {
      *
      * Return value: (transfer full): a #GeosPoint.
      */
-    public Geos:LineString* create_point(self, const Geos:CoordinateSequence* seq, GError** error) {
+    public Geos:Point* create_point(self, const Geos:CoordinateSequence* seq, GError** error) {
+        try {
+            return geos_point_new_from_ref(self->_priv->hndl->createPoint(*seq->_priv->hndl));
+        } catch (std::exception& e) {
+            g_set_error(error, 0, 0, "%s", e.what());
+            return nullptr;
+        }
+    }
+
+
+    /**
+     * create_empty_line_string
+     *
+     * Create an empty line string
+     *
+     * Return value: (transfer full): a #GeosLineString.
+     */
+    public Geos:LineString* create_empty_line_string(self) {
+        return geos_linestring_new_from_ref(self->_priv->hndl->createLineString());
+    }
+
+    /**
+     * create_line_string
+     *
+     * Create a line string
+     *
+     * Return value: (transfer full): a #GeosLineString.
+     */
+    public Geos:LineString* create_line_string(self, const Geos:CoordinateSequence* seq, GError** error) {
         try {
             return geos_linestring_new_from_ref(self->_priv->hndl->createLineString(*seq->_priv->hndl));
         } catch (std::exception& e) {
@@ -97,13 +125,27 @@ class Geos:GeometryFactory from G:Object {
     }
 
 
-    public Geos:LineString* create_empty_line_string(self) {
-        return geos_linestring_new_from_ref(self->_priv->hndl->createLineString());
+    /**
+     * create_empty_line_string
+     *
+     * Create an empty line string
+     *
+     * Return value: (transfer full): a #GeosLineString.
+     */
+    public Geos:LinearRing* create_empty_linear_ring(self) {
+        return geos_linearring_new_from_ref(self->_priv->hndl->createLinearRing());
     }
 
-    public Geos:LineString* create_line_string(self, const Geos:CoordinateSequence* seq, GError** error) {
+    /**
+     * create_linear_ring
+     *
+     * Create a line string
+     *
+     * Return value: (transfer full): a #GeosLineString.
+     */
+    public Geos:LinearRing* create_linear_ring(self, const Geos:CoordinateSequence* seq, GError** error) {
         try {
-            return geos_linestring_new_from_ref(self->_priv->hndl->createLineString(*seq->_priv->hndl));
+            return geos_linearring_new_from_ref(self->_priv->hndl->createLinearRing(*seq->_priv->hndl));
         } catch (std::exception& e) {
             g_set_error(error, 0, 0, "%s", e.what());
             return nullptr;
