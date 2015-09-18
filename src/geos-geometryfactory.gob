@@ -161,14 +161,31 @@ class Geos:GeometryFactory from G:Object {
     }
 
 
+    /**
+     * create_empty_polygon
+     *
+     * Create an empty polygon
+     *
+     * Return value: (transfer full): a #GeosPolygon.
+     */
     public Geos:Polygon* create_empty_polygon(self) {
         return geos_polygon_new_from_ref(self->_priv->hndl->createPolygon());
     }
+
+    /**
+     * create_polygon
+     * @holes: (element-type GeosGeometry*): holes
+     *
+     * Create a polygon
+     *
+     * Return value: (transfer full): a #GeosPolygon.
+     */
     public Geos:Polygon* create_polygon(self, const Geos:LinearRing* shell, GList* holes) {
         std::vector<geos::geom::Geometry*> new_holes;
         for (auto i = g_list_first(holes); i != NULL; i = g_list_next(i))
         {
-            new_holes.push_back((geos::geom::Geometry*)i->data);
+            auto geom = static_cast<GeosGeometry*>(i->data);
+            new_holes.push_back(geom->_priv->hndl);
         }
 
         auto shell_hndl = dynamic_cast<geos::geom::LinearRing*>(shell->__parent__._priv->hndl);

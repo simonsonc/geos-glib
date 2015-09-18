@@ -12,6 +12,7 @@ def configure(ctx):
     ctx.load('local_rpath', tooldir='wtools')
     ctx.env.append_value('CXXFLAGS', '-std=c++11')
     ctx.env.append_value('CXXFLAGS', '-g')
+    ctx.env.append_value('CFLAGS', '-g')
     ctx.load('gob2', tooldir='wtools')
     ctx.env['GOB2FLAGS'] = ['--for-cpp', '--no-extern-c', '--no-lines', '--no-self-alias']
 

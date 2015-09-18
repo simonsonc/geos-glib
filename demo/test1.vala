@@ -26,5 +26,16 @@ int main(string[] args) {
     var linearring = geomf.create_linear_ring(cs);
     stdout.printf("linearing: %s\n", linearring.to_string());
 
+    var lr2cs = csf.create();
+    lr2cs.add(new Coordinate.with_xy(1.0, 2.0));
+    lr2cs.add(new Coordinate.with_xy(1.0, 2.5));
+    lr2cs.add(new Coordinate.with_xy(1.2, 2.5));
+    lr2cs.add(new Coordinate.with_xy(1.0, 2.0));
+    var lr2 = geomf.create_linear_ring(lr2cs);
+    var holes = new List<Geometry>();
+    holes.append(lr2);
+    var polygon = geomf.create_polygon(linearring, holes);
+    stdout.printf("polygon: %s\n", polygon.to_string());
+
     return 0;
 }
