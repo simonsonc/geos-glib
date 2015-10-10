@@ -157,6 +157,13 @@ class Geos:Geometry from G:Object {
         }
     }
 
+    /**
+     * get_centroid
+     *
+     * Get the centroid
+     *
+     * Return value: (transfer full): a #GeosPoint.
+     */
     public Geos:Point* get_centroid(self) {
         return geos_point_new_from_ref(get_hndl(self)->getCentroid());
     }

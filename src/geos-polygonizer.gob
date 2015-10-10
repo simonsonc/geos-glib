@@ -31,6 +31,13 @@ class Geos:Polygonizer from G:Object {
         self->_priv->hndl->add(geom->_priv->hndl);
     }
 
+    /**
+     * get_polygons
+     *
+     * Get generated polygons
+     *
+     * Return value: (element-type GeosPolygon): a list of polygons.
+     */
     public const GList* get_polygons(self) {
         GList* ret = nullptr;
         const auto& polygons = self->_priv->hndl->getPolygons();
@@ -42,6 +49,13 @@ class Geos:Polygonizer from G:Object {
         return ret;
     }
 
+    /**
+     * get_dangles
+     *
+     * Get generated dangles
+     *
+     * Return value: (element-type GeosLineString): a list of line strings.
+     */
     public const GList* get_dangles(self) {
         GList* ret = nullptr;
         const auto& dangles = self->_priv->hndl->getDangles();
@@ -53,6 +67,13 @@ class Geos:Polygonizer from G:Object {
         return ret;
     }
 
+    /**
+     * get_cut_edges
+     *
+     * Get generated cut edges
+     *
+     * Return value: (element-type GeosLineString): a list of line strings.
+     */
     public const GList* get_cut_edges(self) {
         GList* ret = nullptr;
         const auto& cut_edges = self->_priv->hndl->getDangles();

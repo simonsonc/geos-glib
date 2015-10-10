@@ -126,11 +126,11 @@ class Geos:GeometryFactory from G:Object {
 
 
     /**
-     * create_empty_line_string
+     * create_empty_liner_ring
      *
-     * Create an empty line string
+     * Create an empty linear ring
      *
-     * Return value: (transfer full): a #GeosLineString.
+     * Return value: (transfer full): a #GeosLinearRing
      */
     public Geos:LinearRing* create_empty_linear_ring(self) {
         return geos_linearring_new_from_ref(self->_priv->hndl->createLinearRing());
@@ -153,9 +153,24 @@ class Geos:GeometryFactory from G:Object {
     }
 
 
+    /**
+     * create_empty_multi_point
+     *
+     * Create an empty multi point
+     *
+     * Return value: (transfer full): a #GeosMultiPoint.
+     */
     public Geos:MultiPoint* create_empty_multi_point(self) {
         return geos_multipoint_new_from_ref(self->_priv->hndl->createMultiPoint());
     }
+
+    /**
+     * create_multi_point
+     *
+     * Create a multi point
+     *
+     * Return value: (transfer full): a #GeosMultiPoint.
+     */
     public Geos:MultiPoint* create_multi_point(self, const Geos:CoordinateSequence* seq) {
         return geos_multipoint_new_from_ref(self->_priv->hndl->createMultiPoint(*seq->_priv->hndl));
     }
