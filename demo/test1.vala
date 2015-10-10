@@ -36,6 +36,9 @@ int main(string[] args) {
     holes.append(lr2);
     var polygon = geomf.create_polygon(linearring, holes);
     stdout.printf("polygon: %s\n", polygon.to_string());
+    stdout.printf("area: %f\n", polygon.area);
+    stdout.printf("length: %f\n", polygon.length);
+    stdout.printf("dimension: %d\n", polygon.dimension);
 
     return 0;
 }
