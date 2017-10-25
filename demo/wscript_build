@@ -2,6 +2,6 @@ bld.program(
     target='test1',
     use = 'geos-glib',
     source = 'test1.vala',
-    vapi_dirs = '../',
+    vapi_dirs = [bld.path.find_or_declare('../')],
     packages = 'geos-glib')
 

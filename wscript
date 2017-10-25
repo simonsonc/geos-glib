@@ -36,7 +36,7 @@ def build(bld):
     '''
 
     bld.shlib(features='cxx cxxshlib',
-	target='geos-glib',
+        target='geos-glib',
         source=sources,
         includes = 'src',
         export_includes = 'src',
